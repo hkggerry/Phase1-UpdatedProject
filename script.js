@@ -1,16 +1,18 @@
 const BASE_URL = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=margarita'
 
+
 function fetchDrinks(){
     fetch(BASE_URL)
     .then(res => res.json())
     .then (data => {
-        for (i=0; i<data.drinks.length; i++){
-            renderDrinks(data.drinks[i])
-        }
+        data.drinks.map(function(eachDrink){
+            renderDrink(eachDrink)
+            renderOption(eachDrink.strDrink)
+        })
+}) 
 }
-)}
 
-    function renderDrinks(drinks){
+    function renderDrink(drinks){
         
         const margaritas = document.getElementById("DRANKS")
         const imageTag = document.createElement("img")
@@ -25,6 +27,14 @@ function fetchDrinks(){
         imageTag.addEventListener("mouseover",()=>{
             alert("Ingredient includes: "+drinks.strIngredient1+", "+drinks.strIngredient2+", "+drinks.strIngredient3+", "+drinks.strIngredient4)
         })
+    }
+
+    function renderOption(drinkName){
+        const select = document.getElementById("names")
+        const option = document.createElement("option")
+        option.innerText = drinkName
+
+        select.appendChild(option)
     }
 
 fetchDrinks()
